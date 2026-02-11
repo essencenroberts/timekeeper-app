@@ -5,6 +5,7 @@ function TimeEntryForm() {
   const [date, setDate] = useState('')
   const [timeIn, setTimeIn] = useState('')
   const [timeOut, setTimeOut] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   
 function handleSubmit(e) {
   e.preventDefault()
@@ -18,6 +19,8 @@ function handleSubmit(e) {
   }
 
   console.log(entry)
+
+  setSuccessMessage('✅Time entry submitted successfully')
 
   setName('')
   setDate('')
@@ -39,8 +42,14 @@ function calculateHours (start,end) {
 
   return (
     <section>
-     <h2>Log Hours</h2>
+      <h2>Log Hours</h2>
       
+      {successMessage && (
+        <p style={{ color:'green', marginBottom: '1rem' }}>
+          {successMessage}
+        </p>
+      )}
+
      <form onSubmit={handleSubmit}>
         <div>
           <label>Employee Name</label>
