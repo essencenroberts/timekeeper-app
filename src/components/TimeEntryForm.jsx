@@ -6,6 +6,8 @@ function TimeEntryForm() {
   const [timeIn, setTimeIn] = useState('')
   const [timeOut, setTimeOut] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   
 function handleSubmit(e) {
   e.preventDefault()
@@ -49,6 +51,9 @@ function calculateHours (start,end) {
           {successMessage}
         </p>
       )}
+
+      {loading && <p>Submitting...</p>}
+      {error && <p style={{color: 'red' }}>{error}</p>}
 
      <form onSubmit={handleSubmit}>
         <div>
