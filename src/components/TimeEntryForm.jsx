@@ -9,8 +9,12 @@ function TimeEntryForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault()
+
+  setLoading(true)
+  setError('')
+  setSuccessMessage('')
 
   const entry = {
     name,
@@ -20,16 +24,35 @@ function handleSubmit(e) {
     totalHours: calculateHours(timeIn, timeOut)
   }
 
-  console.log(entry)
+  try {
+    const response = await fetch(
+      'https://script.google.com/macros/s/AKfycbxfeG9oGKfKbpTmuyj1P5JAaoqQnmBYrXd_rEy4HJbjc8G8B8N5dRIeThSPxK2W7Hw/exec',
+      {
+        method: 'POST',
+        body: JSON.stringify(entry)
+      }
+    )
 
-  setSuccessMessage('✅Time entry submitted successfully')
+    const result = await response.json()
 
-  setName('')
-  setDate('')
-  setTimeIn('')
-  setTimeOut('')
-}  
+    if (result.success) {
+      setSuccessMessage('✅Time entry submitted successfully')
+      setName('')
+      setDate('')
+      setTimeIn('')
+      setTimeOut('')
+    } else {
+      setError('❌ Submission failed. Please try again.')
+    } 
+  } catch (err) {
+    console.error(err)
+    setError('❌Network error. Please check your connection.')
+  } finally {
+    setLoading(false)
+  }
+}
 
+  
 function calculateHours (start,end) {
   if (!start || !end) return 0
 
@@ -93,7 +116,9 @@ function calculateHours (start,end) {
         </div>
 
 
-        <button type="submit">Add Time</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Submitting...' : 'Add Time'}
+        </button>
       </form>
     </section>
   ) 
