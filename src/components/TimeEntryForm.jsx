@@ -78,8 +78,8 @@ function calculateHours (start,end) {
       {loading && <p>Submitting...</p>}
       {error && <p style={{color: 'red' }}>{error}</p>}
 
-     <form onSubmit={handleSubmit}>
-        <div>
+     <form onSubmit={handleSubmit} className="time-form">
+        <div className="form-group">
           <label>Employee Name</label>
           <input 
             type="text" 
@@ -88,7 +88,7 @@ function calculateHours (start,end) {
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Date</label>
           <input 
             type="date"
@@ -97,7 +97,7 @@ function calculateHours (start,end) {
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label>Time In</label>
           <input 
             type="time"
@@ -106,7 +106,7 @@ function calculateHours (start,end) {
           />
         </div>
         
-         <div>
+         <div className="form-group">
           <label>Time Out</label>
           <input 
             type="time"
